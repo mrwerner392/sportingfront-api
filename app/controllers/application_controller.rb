@@ -32,4 +32,8 @@ class ApplicationController < ActionController::API
     end
   end
 
+  def is_right_user?(user_id)
+    render json: { message: 'You are not authorized for this.' }, status: :unauthorized unless (logged_in_user_id === user_id.to_i)
+  end
+
 end

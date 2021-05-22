@@ -3,7 +3,15 @@ class UsersController < ApplicationController
   before_action :find_and_authorize_user, except: [:create]
 
   def create
-    user = User.create(user_params)
+    email = params[:email]
+    password = params[:password]
+    password_confirmation = params[:password_confirmation]
+
+    if password != password_confirmation
+      render json: { message: 'Passwords do not match.' }, status: :unprocessable_entity
+    end
+
+    user = User.create(email: email, password: password)
     if user.valid?
       render json: authentication_json(user.id)
     else

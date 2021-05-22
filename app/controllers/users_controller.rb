@@ -23,7 +23,19 @@ class UsersController < ApplicationController
     render json: @user
   end
 
+  def update
+    if @user.update(user_params)
+      render json: authentication_json(user.id)
+    else
+      render json: {errors: user.errors.full_messages }, status: :unprocessable_entity
+    end
+  end
+
   private
+
+  def user_params
+    params.permit(:username)
+  end
 
   def find_and_authorize_user
     id = params[:user_id]

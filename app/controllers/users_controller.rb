@@ -11,6 +11,12 @@ class UsersController < ApplicationController
     end
   end
 
+  def show
+    render json: @user
+  end
+
+  private
+
   def find_and_authorize_user
     id = params[:user_id]
     render json: { message: 'Something went wrong. Please try again.' }, status: :bad_request unless id
